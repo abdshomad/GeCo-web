@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeCo - Object Counting Demo</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GeCo Object Counting Demo</h1>
+            <p class="subtitle">A Novel Unified Architecture for Low-Shot Counting by Detection and Segmentation</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <h2>1. Upload Image or Select Sample</h2>
+                <div class="sample-images-section" id="sampleImagesSection">
+                    <h3>Sample Images</h3>
+                    <div class="sample-images-grid" id="sampleImagesGrid">
+                        <div class="loading-samples">Loading sample images...</div>
+                    </div>
+                </div>
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    <label for="imageInput" class="upload-label">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Click to upload or drag and drop</span>
+                        <span class="file-name" id="fileName"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="canvas-section" id="canvasSection" style="display: none;">
+                <h2>2. Draw Exemplar Bounding Boxes</h2>
+                <p class="instruction">
+                    Click and drag on the image to draw bounding boxes around example objects.
+                    Use mouse wheel to zoom, right-click and drag to pan.
+                </p>
+                <div class="canvas-container">
+                    <canvas id="imageCanvas"></canvas>
+                </div>
+                <div class="canvas-controls">
+                    <div class="zoom-controls">
+                        <button id="zoomIn" class="btn btn-secondary" title="Zoom In">+</button>
+                        <button id="zoomOut" class="btn btn-secondary" title="Zoom Out">−</button>
+                        <button id="zoomReset" class="btn btn-secondary" title="Reset Zoom">Reset</button>
+                        <span class="zoom-level" id="zoomLevel">100%</span>
+                    </div>
+                    <div class="box-controls">
+                        <button id="clearBoxes" class="btn btn-secondary">Clear All Boxes</button>
+                        <button id="undoBox" class="btn btn-secondary">Undo Last Box</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h2>3. Configure Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="threshold">Detection Threshold:</label>
+                        <input type="number" id="threshold" value="4" min="1" max="10" step="0.5">
+                        <span class="help-text">Lower values = more detections (may include false positives)</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="outputMasks">
+                            <input type="checkbox" id="outputMasks">
+                            Output Segmentation Masks
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-section" id="actionSection" style="display: none;">
+                <button id="runInference" class="btn btn-primary">Run Inference</button>
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <span>Processing...</span>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2>Results</h2>
+                <div class="result-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="objectCount">0</div>
+                        <div class="stat-label">Objects Detected</div>
+                    </div>
+                </div>
+                <div class="result-canvas-container">
+                    <canvas id="resultCanvas"></canvas>
+                </div>
+                <div class="mask-container" id="maskContainer" style="display: none;">
+                    <h3>Segmentation Masks</h3>
+                    <img id="maskImage" alt="Segmentation mask">
+                </div>
+            </div>
+
+            <div class="error-section" id="errorSection" style="display: none;">
+                <div class="error-message" id="errorMessage"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>GeCo: A Novel Unified Architecture for Low-Shot Counting by Detection and Segmentation</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
